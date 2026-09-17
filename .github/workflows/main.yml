@@ -43,8 +43,21 @@ jobs:
 
       - name: Install golangci-lint
         run: |
-          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
-            | sh -s -- -b "$(go env GOPATH)/bin" "${GOLANGCI_LINT_VERSION}"
+          version="${GOLANGCI_LINT_VERSION#v}"
+          archive="golangci-lint-${version}-linux-amd64.tar.gz"
+          base="https://github.com/golangci/golangci-lint/releases/download/${GOLANGCI_LINT_VERSION}"
+
+          tmp="$(mktemp -d)"
+          curl -sSfL -o "${tmp}/${archive}" "${base}/${archive}"
+          curl -sSfL -o "${tmp}/checksums.txt" "${base}/golangci-lint-${version}-checksums.txt"
+
+          grep " ${archive}$" "${tmp}/checksums.txt" > "${tmp}/want.txt"
+          test "$(wc -l < "${tmp}/want.txt")" -eq 1
+          ( cd "${tmp}" && sha256sum -c want.txt )
+
+          tar -xzf "${tmp}/${archive}" -C "${tmp}"
+          mkdir -p "$(go env GOPATH)/bin"
+          install -m 0755 "${tmp}/golangci-lint-${version}-linux-amd64/golangci-lint" "$(go env GOPATH)/bin/golangci-lint"
 
       - name: Install yaegi
         run: |
