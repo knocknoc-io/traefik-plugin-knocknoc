@@ -1,0 +1,20 @@
+displayName: Knocknoc
+type: middleware
+
+import: github.com/knocknoc-io/traefik-plugin-knocknoc
+
+summary: 'Gate a router behind a Knocknoc server: only IPs on the allowlist it publishes are let through.'
+
+testData:
+  sourceURL: https://knocknoc.example.com/api/allowlist
+  username: traefik
+  secret: replace-with-your-knocknoc-secret
+  pollInterval: 10s
+  requestTimeout: 2s
+  rejectStatusCode: 403
+  rejectBody: '<!doctype html><html><body><h1>Access denied</h1><p>Authenticate with Knocknoc to reach this service.</p></body></html>'
+  rejectContentType: text/html; charset=utf-8
+  ipStrategy:
+    depth: 1
+    excludedIPs:
+      - 10.0.0.0/8

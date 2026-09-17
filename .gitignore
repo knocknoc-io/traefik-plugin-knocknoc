@@ -1,0 +1,8 @@
+/vendor/
+*.test
+*.out
+coverage.txt
+
+.idea/
+.vscode/
+.DS_Store
