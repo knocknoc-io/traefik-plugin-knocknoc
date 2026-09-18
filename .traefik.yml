@@ -2,6 +2,7 @@ displayName: Knocknoc
 type: middleware
 
 import: github.com/knocknoc-io/traefik-plugin-knocknoc
+basePkg: knocknoc
 
 summary: 'Gate a router behind a Knocknoc server: only IPs on the allowlist it publishes are let through.'
 
