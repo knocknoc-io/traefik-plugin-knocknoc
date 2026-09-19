@@ -31,7 +31,7 @@ experimental:
   plugins:
     knocknoc:
       moduleName: github.com/knocknoc-io/traefik-plugin-knocknoc
-      version: v0.1.0
+      version: v0.2.0
 ```
 
 ## Usage
